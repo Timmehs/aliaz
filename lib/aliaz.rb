@@ -1,8 +1,7 @@
 require 'aliaz/version'
-require 'aliaz/config'
 require 'aliaz/cli'
+require 'aliaz/config'
 
 module Aliaz
   include Aliaz::Config
-  # Your code goes here...
 end
