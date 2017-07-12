@@ -1,0 +1,95 @@
+require: rubocop-rspec
+
+AllCops:
+  DisplayCopNames: true
+  ExtraDetails: true
+  Exclude:
+  - 'db/**/*'
+  - 'lib/tasks/hotfixes/*'
+  - 'node_modules/**/*'
+  - 'tmp/**/*'
+  - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+Rails/DynamicFindBy:
+  Whitelist:
+    - 'find_by_encoded_id!'
+    - 'find_by_encoded_id'
+    - 'find_by_hashed_token'
+    - 'find_by_sql'
+    - 'find_by_token'
+
+RSpec/DescribeClass:
+  Exclude:
+  - 'spec/features/**/*'
+  - 'spec/requests/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'app/admin/*'
+    - 'config/routes/**/*'
+    - 'lib/tasks/**/*'
+  ExcludedMethods:
+    - configure
+    - context
+    - define
+    - describe
+    - draw
+    - factory
+    - feature
+    - guard
+    - included
+    - it
+    - let
+    - let!
+    - scenario
+    - setup
+    - shared_context
+    - shared_examples
+    - shared_examples_for
+    - transaction
+
+Metrics/LineLength:
+  Max: 120
+  # Ignores annotate output
+  IgnoredPatterns: ['\A# \*\*']
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/BlockDelimiters:
+  SupportedStyles:
+    - line_count_based
+    - braces_for_chaining
+
+Style/ConditionalAssignment:
+  Severity: warning
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GlobalVars:
+  AllowedVariables:
+    - $flipper
+
+Style/GuardClause:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/SingleLineBlockParams:
+  Enabled: false
+
+inherit_from: .rubocop_todo.yml
