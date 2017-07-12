@@ -92,4 +92,3 @@ Layout/MultilineMethodCallIndentation:
 Style/SingleLineBlockParams:
   Enabled: false
 
-inherit_from: .rubocop_todo.yml
