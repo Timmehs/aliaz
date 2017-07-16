@@ -5,6 +5,9 @@
 /coverage/
 /doc/
 /pkg/
-/spec/reports/
 /tmp/
+<<<<<<< HEAD
 local_config.json
+=======
+/local_config.json
+>>>>>>> cacdf4effb2e8f7f9fffe96f591f83445d75043d
