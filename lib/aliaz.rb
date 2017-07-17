@@ -1,7 +1,9 @@
+require 'thor'
 require 'aliaz/version'
-require 'aliaz/cli'
 require 'aliaz/config'
+require 'aliaz/cli'
 
 module Aliaz
-  include Aliaz::Config
+  CONFIG_FILE = 'local_config.json'.freeze
+  ROOT = File.expand_path('../..', __FILE__)
 end

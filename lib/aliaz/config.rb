@@ -1,9 +1,39 @@
-require 'json'
+require 'thor'
+require 'yaml/store'
 
 module Aliaz
-  module Config
+  class Config < Thor
     CONFIG_FILE = 'local_config.json'.freeze
-    ROOT = File.expand_path('../../..', __FILE__)
+    # TODO combine into one command with options
+    desc 'list', 'List configuration settings'
+    def list
+      config = YAML.load_file(config_file_path).to_h
+      puts "#{'SETTING'.ljust(15)} VALUE"
+      config.each do |key, val|
+        puts "#{key.ljust(15)} #{val}"
+      end
+    end
+
+    desc 'token <personal access token>', 'Set your Github personal access token.  Get one here: https://github.com/settings/tokens/new'
+    def token(token)
+      return puts 'Invalid token length' unless token.length > 14
+      configuration.transaction do
+        configuration['github_token'] = token
+      end
+    end
+
+    desc 'target <path to file>', 'path to the file you want to sync with Aliaz. (default: "~/.aliaz")'
+    def target(file_path)
+      configuration.transaction do
+        configuration['target_file'] = file_path
+      end
+    end
+
+    private
+
+    def configuration
+      @_configuration ||= YAML::Store.new(config_file_path)
+    end
 
     def config_set(key, value)
       current_config = find_or_create_config
@@ -18,11 +48,7 @@ module Aliaz
     end
 
     def config_file_path
-      File.join(ROOT, CONFIG_FILE)
-    end
-
-    def config
-      JSON.parse(config_file_path)
+      File.join(Aliaz::ROOT, CONFIG_FILE)
     end
 
     def save_config(serialized_config)
@@ -33,12 +59,11 @@ module Aliaz
 
     def serialized_config
       raise 'No local config exists!' unless config_exists?
-      JSON.parse(File.read(config_file_path))
+      YAML.load_file(config_file_path)
     end
 
     def initialize_config
       f = File.open(config_file_path, 'w')
-      f.puts '{}'
       f.close
     end
 
