@@ -2,7 +2,7 @@ require 'json'
 
 module Aliaz
   module Config
-    CONFIG_FILE = 'local_config.json'.freeze
+    CONFIG_FILE = 'local_config'.freeze
     ROOT = File.expand_path('../../..', __FILE__)
 
     def config_set(key, value)
