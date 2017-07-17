@@ -1,6 +1,7 @@
 require 'thor'
 require 'aliaz/version'
 require 'aliaz/config'
+require 'aliaz/github_client'
 require 'aliaz/cli'
 
 module Aliaz
