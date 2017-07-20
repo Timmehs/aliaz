@@ -1,4 +1,5 @@
 require 'thor'
+require_relative './config'
 
 module Aliaz
   module CLI
@@ -9,6 +10,11 @@ module Aliaz
       desc 'sync', 'sync aliases to Aliaz gist on Github'
       def sync
         puts 'hi'
+      end
+
+      desc 'test', 'test github client'
+      def test
+        puts 'o'
       end
       # desc 'list', 'list current configuration'
       # def list

@@ -3,15 +3,17 @@ require 'httparty'
 module Aliaz
   class GithubClient
     include HTTParty
-    base_url 'https://api.github.com/gists'
+    base_uri 'https://api.github.com/'
 
-    def initialize(:github_token, :github_user, :target_file)
-      @access_token = access_token
+    def initialize(github_token:)
+      @access_token = github_token
       @headers = build_headers
-      @file = target_file
     end
 
-    def test; end
+    def test
+      self.class.get('/users/Timmehs')
+      # ping github user endpoint using token
+    end
 
     private
 

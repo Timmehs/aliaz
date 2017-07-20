@@ -1,16 +1,22 @@
 require 'yaml/store'
 
 module Aliaz
-  module Config
+  class Config
     CONFIG_FILE = 'local_config.yml'.freeze
+    attr_reader :config
 
-    def configuration
-      @_configuration ||= YAML::Store.new(config_file_path)
+    def initialize
+      @config = YAML::Store.new(config_file_path)
     end
 
     def config_set(key, value)
       current_config = find_or_create_config
       save_config(current_config.merge(key => value))
+    end
+
+    def config_get(key)
+      puts "#{key} not set!" unless config[key]
+      config[key]
     end
 
     def config_delete(alias_name)

@@ -6,4 +6,4 @@
 /doc/
 /pkg/
 /tmp/
-local_config
+local_config*

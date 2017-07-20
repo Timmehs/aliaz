@@ -2,4 +2,4 @@
 
 require 'aliaz'
 
-Aliaz::CLI.start(ARGV)
+Aliaz::CLI::Main.start(ARGV)
