@@ -1,9 +1,12 @@
-require 'json'
+require 'yaml/store'
 
 module Aliaz
   module Config
-    CONFIG_FILE = 'local_config'.freeze
-    ROOT = File.expand_path('../../..', __FILE__)
+    CONFIG_FILE = 'local_config.yml'.freeze
+
+    def configuration
+      @_configuration ||= YAML::Store.new(config_file_path)
+    end
 
     def config_set(key, value)
       current_config = find_or_create_config
@@ -18,11 +21,7 @@ module Aliaz
     end
 
     def config_file_path
-      File.join(ROOT, CONFIG_FILE)
-    end
-
-    def config
-      JSON.parse(config_file_path)
+      File.join(Aliaz::ROOT, CONFIG_FILE)
     end
 
     def save_config(serialized_config)
@@ -33,12 +32,11 @@ module Aliaz
 
     def serialized_config
       raise 'No local config exists!' unless config_exists?
-      JSON.parse(File.read(config_file_path))
+      YAML.load_file(config_file_path)
     end
 
     def initialize_config
       f = File.open(config_file_path, 'w')
-      f.puts '{}'
       f.close
     end
 
