@@ -5,26 +5,34 @@ module Aliaz
     class Config < Thor
       def initialize(*args)
         super
-        @config = Aliaz::Config.new.config
+        @config = Aliaz::Config.new
       end
+
+      default_task :list
 
       desc 'list', 'List configuration settings'
       def list
-        puts "#{'SETTING'.ljust(15)} VALUE"
-        @config.transaction(true) do
-          @config.roots.each do |data_root_key|
-            puts "#{data_root_key.ljust(15)} #{@config[data_root_key]}"
-          end
+        @config.to_s
+      end
+
+      desc 'files', 'manage which files Aliaz should sync'
+      method_option :add, aliases: '-a', desc: 'add a file for syncing'
+      method_option :delete, aliases: '-d', desc: 'remove a file from sync list'
+      def files
+        if options[:add]
+          @config.add_file(options[:add])
+        elsif options[:delete]
+          @config.remove_file(options[:delete])
+          puts "Removed file from sync list: #{options[:delete]}"
+        else
+          puts 'ALIAZ SYNC LIST'
+          @config.get_files.each { |f| puts "#{f}\n" }
         end
       end
 
       desc 'token <personal access token>', 'Set your Github personal access token.  Get one here: https://github.com/settings/tokens/new'
       def token(token)
-        return puts 'Invalid token length' unless token.length > 14
-        @config.transaction do
-          @config['github_token'] = token
-          @config.commit
-        end
+        @config.set_token(token)
         puts 'Aliaz Config: Github token set'
       end
 
