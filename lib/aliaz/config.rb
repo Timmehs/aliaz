@@ -1,4 +1,5 @@
 require 'yaml/store'
+require 'colorize'
 
 module Aliaz
   class Config
@@ -9,10 +10,10 @@ module Aliaz
     end
 
     def to_s
-      puts 'ALIAZ CONFIG'
+      puts "\nAliaz Configuration\n"
       @config.transaction(true) do
         @config.roots.each do |data_root_key|
-          puts "#{data_root_key}=#{@config[data_root_key]}"
+          puts "#{data_root_key.to_s.ljust(15).colorize(:yellow)} #{@config[data_root_key]}"
         end
       end
     end
