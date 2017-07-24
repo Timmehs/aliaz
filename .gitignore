@@ -4,6 +4,6 @@
 /_yardoc/
 /coverage/
 /doc/
-/pkg/
+/builds/
 /tmp/
-local_config*
+local_config
