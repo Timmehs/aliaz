@@ -18,6 +18,10 @@ module Aliaz
       end
     end
 
+    def token
+      get_key(:token)
+    end
+
     def set_token(token)
       set_key(:token, token)
     end

@@ -11,8 +11,7 @@ module Aliaz
     end
 
     def test
-      self.class.get('/users/Timmehs')
-      # ping github user endpoint using token
+      self.class.get('/users/Timmehs/gists')
     end
 
     private

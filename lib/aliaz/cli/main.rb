@@ -4,6 +4,11 @@ require_relative './config'
 module Aliaz
   module CLI
     class Main < Thor
+      def initialize(*args)
+        super
+        @config = Aliaz::Config.new
+      end
+
       desc 'config', 'manage your Aliaz config'
       subcommand 'config', Config
 
@@ -14,7 +19,13 @@ module Aliaz
 
       desc 'test', 'test github client'
       def test
-        puts 'o'
+        if @config.token
+          client = Aliaz::GithubClient.new(github_token: @config.token)
+          response = client.test
+          puts response.body
+        else
+          puts "No token set"
+        end
       end
       # desc 'list', 'list current configuration'
       # def list
