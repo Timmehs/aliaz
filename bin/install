@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'aliaz'
+require 'colorize'
+ROOT_DIR = File.expand_path('.')
+BUILD_DIR = File.join(ROOT_DIR, 'builds')
+GEM_NAME = "aliaz-#{Aliaz::VERSION}.gem".freeze
+LOCAL_GEM = File.join(BUILD_DIR, GEM_NAME)
+
+def info(text)
+  puts text.colorize(:light_blue)
+end
+# Uninstall existing version
+info 'Unintall existing version'
+puts `gem uninstall aliaz -x`
+
+info 'Check for builds folder, create if needed'
+puts `mkdir #{BUILD_DIR}` unless File.directory?(BUILD_DIR)
+
+info 'Build gem and move it to ./builds'
+puts `gem build aliaz.gemspec;mv #{GEM_NAME} #{BUILD_DIR}`
+
+info 'Install newly built gem'
+puts `gem install #{LOCAL_GEM}`
