@@ -1,4 +1,5 @@
 require 'thor'
+require 'colorize'
 require_relative './config'
 
 module Aliaz
@@ -17,14 +18,23 @@ module Aliaz
         puts 'hi'
       end
 
-      desc 'test', 'test github client'
-      def test
+      desc 'gists', 'list the gists currently managed by Aliaz'
+      def gists
         if @config.token
           client = Aliaz::GithubClient.new(github_token: @config.token)
-          response = client.test
-          puts response.body
+          response = client.gists
+          if response.success?
+            gists = JSON.parse(response.body)
+            puts "#{gists.size} gists found"
+            gists.each do |g|
+              puts g["description"]
+            end
+          else
+            puts "Error: #{response.code} #{response.body}"
+          end
         else
-          puts "No token set"
+          puts 'You must set a token first, e.g.'.colorize(:red)
+          puts "\taliaz config token <personal access token>"
         end
       end
       # desc 'list', 'list current configuration'

@@ -23,7 +23,14 @@ module Aliaz
     end
 
     def set_token(token)
-      set_key(:token, token)
+      @client = Aliaz::GithubClient.new(token)
+      response = @client.user
+      if response.success?
+        set_key(:login, JSON.parse(response.body)['login'])
+        set_key(:token, token)
+      else
+        puts 'Invalid token'
+      end
     end
 
     # If file not already listed && file exists, add to config
@@ -61,6 +68,10 @@ module Aliaz
       value = nil
       @config.transaction(true) { value = @config[key] }
       value
+    end
+
+    def get_login
+      get_key(:login)
     end
 
     private
